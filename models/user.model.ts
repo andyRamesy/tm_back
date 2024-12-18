@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface IUser {
+export default interface IUser {
   email: string;
   password: string;
   image: string;
