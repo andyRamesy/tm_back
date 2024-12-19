@@ -1,19 +1,18 @@
-import { User } from "../models/user.model";
-import bcryptjs from "bcryptjs";
-import { generateTokenAndSetCookies } from "../utils/generateTokens";
-import { Response, Request, NextFunction } from "express";
+import { User } from '../models/user.model';
+import bcryptjs from 'bcryptjs';
+import { generateTokenAndSetCookies } from '../utils/generateTokens';
+import { Response, Request, NextFunction, RequestHandler } from 'express';
 
-export const signup = async (
+export const signup: RequestHandler = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const { email, password }: { email?: string, password?: string } = req.body;
+    const { email, password } = req.body;
 
-    
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and password required" });
+      res.status(400).json({ message: 'Email and password required' });
     }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
@@ -22,20 +21,55 @@ export const signup = async (
 
     generateTokenAndSetCookies(newUser._id.toString(), res);
 
-    res.status(201).json({ message: "User created!!!", user: newUser });
+    res.status(201).json({ message: 'User created!!!', user: newUser });
   } catch (error) {
-    console.error("Error in signup:", error);
-    res.status(500).json({ message: "Server error" });
+    console.error('Error in signup:', error);
+    res.status(500).json({ message: 'Server error' });
     next(error);
+  }
+};
+
+export const login: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      res.status(400).json({ message: 'Email and password required' });
+    }
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      res.status(404).json({ success: false, messge: 'Invalid creds' });
+    }
+
+    if (!user!.password) {
+      res.status(400).json({ message: 'Invalid creds' });
+    }
+
+    const isPasswordCorrect = await bcryptjs.compare(password, user!.password);
+
+    if (!isPasswordCorrect) {
+      res.status(400).json({ success: false, message: 'Invalid creds' });
+    }
+
+    const token = generateTokenAndSetCookies(user!._id.toString(), res);
+
+    res.status(200).json({
+      success: true,
+      user: {
+        ...user!.toObject(),
+        token,
+      },
+    });
+  } catch (error) {
+    
   }
 };
 
 export async function authCheck(req: Request, res: Response) {
   try {
-    console.log("req.user:", req.user);
+    console.log('req.user:', req.user);
     res.status(200).json({ success: true, user: req.user });
   } catch (error) {
-    console.log("Error in authCheck controller", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.log('Error in authCheck controller', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 }
