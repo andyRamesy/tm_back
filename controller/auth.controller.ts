@@ -35,7 +35,7 @@ export const login: RequestHandler = async (req: Request, res: Response) => {
     if (!email || !password) {
       res.status(400).json({ message: 'Email and password required' });
     }
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
     if (!user) {
       res.status(404).json({ success: false, messge: 'Invalid creds' });
     }
@@ -60,9 +60,19 @@ export const login: RequestHandler = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    
+
   }
 };
+
+export const logout:RequestHandler = (req: Request, res: Response) => {
+  try {
+    res.clearCookie('jwt-netflix');
+    res.status(200).json({ success: true, message: 'Logged out successfully' });
+  } catch (error) {
+    console.log('Error in logout controller', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+}
 
 export async function authCheck(req: Request, res: Response) {
   try {
