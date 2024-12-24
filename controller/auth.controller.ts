@@ -76,10 +76,10 @@ export const logout:RequestHandler = (req: Request, res: Response) => {
 
 export async function authCheck(req: Request, res: Response) {
   try {
-    console.log('req.user:', req.user);
-    res.status(200).json({ success: true, user: req.user });
+    // console.log('req.user:', req.user);
+    // res.status(200).json({ success: true, user: req.user });
   } catch (error) {
-    console.log('Error in authCheck controller', error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    // console.log('Error in authCheck controller', error);
+    // res.status(500).json({ success: false, message: 'Internal server error' });
   }
 }
