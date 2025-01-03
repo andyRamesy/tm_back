@@ -7,6 +7,7 @@ interface IEnv_vars {
   PORT: number;
   JWT_SECRET: string;
   NODE_ENV: string;
+  TMDB_API_KEY: string;
 }
 
 export const ENV_VARS: IEnv_vars = {
@@ -14,4 +15,5 @@ export const ENV_VARS: IEnv_vars = {
   PORT: process.env.PORT ? parseInt(process.env.PORT, 10) : 5000,
   JWT_SECRET: process.env.JWT_SECRET || "",
   NODE_ENV: process.env.NODE_ENV || "",
+  TMDB_API_KEY: process.env.TMDB_API_KEY || "",
 };
