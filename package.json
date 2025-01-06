@@ -18,7 +18,7 @@
     "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^5.0.2",
+    "@types/bcryptjs": "2.4.1",
     "@types/cookie-parser": "^1.4.8",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.0",
