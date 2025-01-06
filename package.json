@@ -4,7 +4,7 @@
   "main": "server.ts",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon server.ts",
+    "vercel build": "nodemon server.ts",
     "dev": "nodemon server.ts"
   },
   "dependencies": {
