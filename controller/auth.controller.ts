@@ -12,18 +12,18 @@ export const signup: Function = async (
     const { email, password } = req.body;
 
     if (!email || !password) {
-     return res.status(400).json({ message: "Email and password required" });
+      return res.status(400).json({ message: "Email and password required" });
     }
     console.log("manao anty ve izy");
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
     if (!emailRegex.test(email)) {
-        return res.status(400).json({ success: false, message: "Invalid email" });
+      return res.status(400).json({ success: false, message: "Invalid email" });
     }
 
     if (password.length < 6) {
-        return res.status(400).json({
+      return res.status(400).json({
         success: false,
         message: "Password must be at least 6 characters",
       });
@@ -31,7 +31,9 @@ export const signup: Function = async (
 
     const emailExist = await User.exists({ email });
     if (emailExist) {
-        return res.status(400).json({ success: false, message: "Email already used" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Email already used" });
     }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
@@ -52,26 +54,27 @@ export const login: Function = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-     return res.status(400).json({ message: "Email and password required" });
+      return res.status(400).json({ message: "Email and password required" });
     }
-    
+
     const user = await User.findOne({ email });
-    
+
     if (!user) {
-     return res.status(400).json({ success: false, messge: "Invalid creds" });
+      return res.status(400).json({ success: false, messge: "Invalid creds" });
     }
 
     const isPasswordCorrect = await bcryptjs.compare(password, user!.password);
 
     if (!isPasswordCorrect) {
       console.log("Invalid creds");
-      
-     return res.status(400).json({ success: false, message: "Invalid creds" });
+
+      return res.status(400).json({ success: false, message: "Invalid creds" });
     }
 
     const token = generateTokenAndSetCookies(user!._id.toString(), res);
+    console.log("token:", token);
 
-   return res.status(200).json({
+    return res.status(200).json({
       success: true,
       user: {
         ...user!.toObject(),
@@ -84,10 +87,14 @@ export const login: Function = async (req: Request, res: Response) => {
 export const logout: Function = (req: Request, res: Response) => {
   try {
     res.clearCookie("jwt-netflix");
-    return res.status(200).json({ success: true, message: "Logged out successfully" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
   } catch (error) {
     console.log("Error in logout controller", error);
-    return res.status(500).json({ success: false, message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
 

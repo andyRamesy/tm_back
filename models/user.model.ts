@@ -5,6 +5,7 @@ export default interface IUser {
   password: string;
   image: string;
   searchHistory: string[];
+  token: string;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -24,6 +25,10 @@ const userSchema = new mongoose.Schema<IUser>({
   searchHistory: {
     type: [String],
     default: [],
+  },
+  token: {
+    type: String,
+    default: "",
   },
 });
 
