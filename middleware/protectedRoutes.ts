@@ -1,16 +1,15 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model";
 import { ENV_VARS } from "../config/env";
-import { NextFunction, Response, Request } from "express";
+import { NextFunction, Response, Request, RequestHandler, RequestParamHandler } from "express";
 
 interface ITokenPayload {
   userId: string;
 }
 
 export const protectRoute = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+req: Request,
+res: Response,
 ) => {
   try {
     const token = req.headers.authorization;
@@ -35,9 +34,9 @@ export const protectRoute = async (
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+    console.log("req user:", req);
+    
 
-    req.user = user;
-    next();
   } catch (error) {
     console.log("Error in protectRoute middleware: ", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
