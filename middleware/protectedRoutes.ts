@@ -14,7 +14,7 @@ interface ITokenPayload {
   userId: string;
 }
 
-export const protectRoute = async (req, res,next) => {
+export const protectRoute = async (req, res, next) => {
   try {
     let token =
       req.body.token || req.query.token || req.headers["authorization"];
@@ -41,6 +41,6 @@ export const protectRoute = async (req, res,next) => {
     next();
   } catch (error) {
     console.log("Error in protectRoute middleware: ", error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+    res.status(500).json({ success: false, message: error });
   }
 };

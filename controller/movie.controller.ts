@@ -12,6 +12,7 @@ export async function getTrendingMovie(request: Request, res: Response) {
     log("limited", limited);
     res.status(200).json({ success: true, data: limited });
   } catch (error) {
+    log("error fetch trending movies", error);
     res.json({ success: false, message: error });
   }
 }
