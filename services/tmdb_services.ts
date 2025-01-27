@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ENV_VARS } from "../config/env";
+import { log } from "console";
 
 export const fetchFromTMDB = async (url: string) => {
   const options = {
@@ -14,6 +15,5 @@ export const fetchFromTMDB = async (url: string) => {
   if (response.status >= 400) {
     throw new Error(response.data.errors);
   }
-
   return response.data;
 };

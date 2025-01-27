@@ -4,6 +4,6 @@ import { protectRoute } from "../middleware/protectedRoutes";
 
 const router = express.Router();
 
-router.get("/trending", protectRoute as any,getTrendingMovie as RequestHandler);
+router.get("/trending", getTrendingMovie);
 
 export default router;
