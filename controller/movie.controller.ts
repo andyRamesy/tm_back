@@ -9,7 +9,6 @@ export async function getTrendingMovie(request: Request, res: Response) {
       "https://api.themoviedb.org/3/trending/movie/day?language=en-US"
     );
     const limited = data.results.slice(0, 5);
-    log("limited", limited);
     res.status(200).json({ success: true, data: limited });
   } catch (error) {
     log("error fetch trending movies", error);
