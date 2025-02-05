@@ -4,7 +4,6 @@ import path from "path";
 import { ENV_VARS } from "./config/env";
 import { connectDB } from "./config/db";
 import authRoutes from "./routes/authRoutes";
-import axios from "axios";
 import { protectRoute } from "./middleware/protectedRoutes";
 import movieRoutes from "./routes/movieRoutes";
 const app = express();

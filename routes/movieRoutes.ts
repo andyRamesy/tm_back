@@ -1,9 +1,9 @@
 import express, { RequestHandler } from "express";
-import { getTrendingMovie } from "../controller/movie.controller";
-import { protectRoute } from "../middleware/protectedRoutes";
+import { getNowPlayingMovie, getTrendingMovie } from "../controller/movie.controller";
 
 const router = express.Router();
 
 router.get("/trending", getTrendingMovie);
+router.get("/nowplaying",getNowPlayingMovie);
 
 export default router;
