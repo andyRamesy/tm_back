@@ -1,8 +1,8 @@
 import express from "express";
-import { getTrendingTv } from "../controller/tv.controller";
+import { getPopularTv } from "../controller/tv.controller";
 
 const router = express.Router();
 
-router.get("/popular", getTrendingTv);
+router.get("/popular", getPopularTv);
 
 export default router;

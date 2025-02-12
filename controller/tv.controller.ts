@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import { fetchFromTMDB } from "../services/tmdb_services";
 
-export async function getTrendingTv(request: Request, res: Response) {
+export async function getPopularTv(request: Request, res: Response) {
   try {
     const data = await fetchFromTMDB(
-      'https://api.themoviedb.org/3/trending/tv/day?language=en-US',
+      'https://api.themoviedb.org/3/tv/popular?language=en-US&page=1',
     );
-    const randomMovie = data.results[Math.floor(Math.random() * data.results.length)];
 
-    res.json({ success: true, data: randomMovie });
+    res.json({ success: true, data });
 
   } catch (error) {
     res.json({ success: false, message: error });
